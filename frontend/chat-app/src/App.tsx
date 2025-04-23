@@ -6,19 +6,29 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import SettingPage from "./pages/SettingPage";
 import ProfilePage from "./pages/ProfilePage";
+import { useAuthStore } from "./store/useAuthStore";
+import { useEffect } from "react";
 
-const App = () =>{
-  return <div>
-    <Navbar/>
+const App = () => {
+  const { authUser, checkAuth } = useAuthStore();
 
-    <Routes>
-      <Route path={ROUTES.HOME_PAGE} element={<HomePage/>}/>
-      <Route path={ROUTES.SIGN_UP} element={<SignupPage/>}/>
-      <Route path={ROUTES.LOGIN} element={<LoginPage/>}/>
-      <Route path={ROUTES.SETTING} element={<SettingPage/>}/>
-      <Route path={ROUTES.PROFILE} element={<ProfilePage/>}/>
-    </Routes>
-  </div>
-}
+  useEffect(() => {
+    checkAuth();
+  }, []);
+  
+  return (
+    <div>
+      <Navbar />
+
+      <Routes>
+        <Route path={ROUTES.HOME_PAGE} element={<HomePage />} />
+        <Route path={ROUTES.SIGN_UP} element={<SignupPage />} />
+        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+        <Route path={ROUTES.SETTING} element={<SettingPage />} />
+        <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+      </Routes>
+    </div>
+  );
+};
 
 export default App;
