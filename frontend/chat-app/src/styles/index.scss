@@ -1,0 +1,45 @@
+@use "./Pages/signup.scss" as *;
+
+
+img {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+.input{
+  border-radius: 10px;
+  border: 0.5px solid #E8E8E8;
+  padding: 5px 10px;
+}
+
+.label-input{
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.input-item{
+  margin-bottom: 12px;
+}
+
+.btn{
+  background-color: #4BA52D;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  color: white
+}

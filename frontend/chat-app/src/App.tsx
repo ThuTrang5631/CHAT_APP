@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { ROUTES } from "./utils/constants";
 import HomePage from "./pages/Homepage";
@@ -10,12 +10,23 @@ import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 
 const App = () => {
-  const { authUser, checkAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const location = useLocation();
+  const { pathname } = location;
+  const navigate = useNavigate();
+
+  if (!authUser && [ROUTES.PROFILE, ROUTES.HOME_PAGE].includes(pathname)) {
+    navigate(ROUTES.LOGIN);
+  }
+
+  if ([ROUTES.SIGN_UP, ROUTES.LOGIN].includes(pathname) && authUser) {
+    navigate(ROUTES.HOME_PAGE);
+  }
 
   useEffect(() => {
     checkAuth();
   }, []);
-  
+
   return (
     <div>
       <Navbar />
