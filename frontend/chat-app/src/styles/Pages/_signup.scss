@@ -54,6 +54,27 @@
       margin-bottom: 15px;
     }
   }
+
+  .contain-input-password{
+    position: relative;
+
+    .btn-show-pass{
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      
+      svg{
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+  
+  .btn-signin{
+    font-size:13px;
+    font-weight: 700;
+  }
+  
 }
 
 @media screen and (max-width: $breakpoint-lg) {

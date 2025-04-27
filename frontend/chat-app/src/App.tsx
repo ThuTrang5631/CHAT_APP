@@ -8,6 +8,7 @@ import SettingPage from "./pages/SettingPage";
 import ProfilePage from "./pages/ProfilePage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -38,6 +39,8 @@ const App = () => {
         <Route path={ROUTES.SETTING} element={<SettingPage />} />
         <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
       </Routes>
+
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

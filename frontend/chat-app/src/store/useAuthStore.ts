@@ -8,6 +8,7 @@ export const useAuthStore = create((set) => ({
   isUpdateProfile: false,
 
   isCheckingAuth: true,
+  saveAuthUser: (newUser: any) => set({ authUser: newUser }),
   checkAuth: async () => {
     try {
       const res = await request.get("/auth/check");

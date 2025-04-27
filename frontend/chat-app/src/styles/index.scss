@@ -22,10 +22,16 @@ p {
   margin: 0;
 }
 
+button{
+  cursor: pointer;
+}
+
 .input{
   border-radius: 10px;
   border: 0.5px solid #E8E8E8;
   padding: 5px 10px;
+  font-size: 13px;
+  width: 100%;
 }
 
 .label-input{
