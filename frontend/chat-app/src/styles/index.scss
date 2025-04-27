@@ -1,3 +1,5 @@
+
+@use "./variables" as *;
 @use "./Pages/signup.scss" as *;
 
 
@@ -32,9 +34,6 @@ p {
   margin-bottom: 5px;
 }
 
-.input-item{
-  margin-bottom: 12px;
-}
 
 .btn{
   background-color: #4BA52D;
@@ -42,4 +41,8 @@ p {
   border-radius: 10px;
   width: 100%;
   color: white
+}
+
+.container-app{
+  height: 100vh;
 }

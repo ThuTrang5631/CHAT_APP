@@ -28,7 +28,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container-app">
       <Navbar />
 
       <Routes>

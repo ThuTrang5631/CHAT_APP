@@ -1,11 +1,86 @@
-.signup{
-  .signup-title{
+@use "../variables" as *;
+
+
+.signup {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .signup-contain {
+    width: 70%;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .signup-title {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 7px;
+    text-align: center;
   }
 
-  .signup-desc{
+  .signup-desc {
     font-size: 13px;
+    text-align: center;
+  }
+
+  .signup-form, .signup-image{
+    width: 50%;
+  }
+
+  .signup-form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 40%;
+    gap: 10px;
+
+    form{
+      width: 100%;
+    }
+  }
+
+  .input-item{
+    margin-bottom: 12px;
+
+    &:last-child{
+      margin-bottom: 15px;
+    }
   }
 }
+
+@media screen and (max-width: $breakpoint-lg) {
+  .signup{
+    .signup-contain{
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-md){
+  .signup{
+    .signup-image{
+      display: none;
+    }
+
+    .signup-form{
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-md){
+  .signup{
+    .signup-contain{
+      padding: 20px ;
+    }
+  }
+}
+
