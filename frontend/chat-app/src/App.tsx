@@ -15,12 +15,15 @@ const App = () => {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
+  console.log("pathName", pathname);
 
   if (!authUser && [ROUTES.PROFILE, ROUTES.HOME_PAGE].includes(pathname)) {
     navigate(ROUTES.LOGIN);
   }
 
   if ([ROUTES.SIGN_UP, ROUTES.LOGIN].includes(pathname) && authUser) {
+    console.log("have user");
+
     navigate(ROUTES.HOME_PAGE);
   }
 

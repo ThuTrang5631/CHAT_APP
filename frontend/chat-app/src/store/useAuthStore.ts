@@ -12,12 +12,14 @@ export const useAuthStore = create((set) => ({
   checkAuth: async () => {
     try {
       const res = await request.get("/auth/check");
+      console.log(res);
 
       set({ authUser: res.data });
     } catch (error) {
       console.log("Error in checkAuth", error);
-    } finally {
       set({ authUser: null });
+    } finally {
+      set({ isCheckingAuth: false });
     }
   },
 }));

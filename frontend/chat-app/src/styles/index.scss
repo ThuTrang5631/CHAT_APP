@@ -1,6 +1,7 @@
 
 @use "./variables" as *;
 @use "./Pages/signup.scss" as *;
+@use "./Components/navbar";
 
 
 img {
@@ -9,7 +10,6 @@ img {
 
 a {
   text-decoration: none;
-  display: block;
 }
 
 h1,
