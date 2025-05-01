@@ -2,9 +2,24 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/constants";
 import { LogOut, MessageSquare, Settings, User } from "lucide-react";
 import { useAuthStore } from "../../store/useAuthStore";
+import { request } from "../../lib/axios";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
-  const { authUser } = useAuthStore();
+  const { authUser, saveAuthUser } = useAuthStore();
+
+  const handleLogOut = async () => {
+    try {
+      const res = await request.post("/auth/logout");
+      if (res) {
+        saveAuthUser(null);
+        toast.success("Log out successfuly");
+      }
+    } catch (error: any) {
+      console.log("Error of log out");
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <header className="header">
@@ -26,7 +41,10 @@ const Navbar = () => {
               <User />
               <p className="header-desc">Profile</p>
             </button>
-            <button className="flex items-center gap-[5px]">
+            <button
+              className="flex items-center gap-[5px]"
+              onClick={handleLogOut}
+            >
               <LogOut />
               <p className="header-desc">Log out</p>
             </button>
