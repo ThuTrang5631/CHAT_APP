@@ -2,6 +2,7 @@
 @use "./variables" as *;
 @use "./Pages/signup.scss" as *;
 @use "./Components/navbar";
+@use "./Pages/profile-page" as *;
 
 
 img {
@@ -43,7 +44,7 @@ button{
 
 .btn{
   background-color: #4BA52D;
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: 10px;
   width: 100%;
   color: white

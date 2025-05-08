@@ -30,17 +30,18 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="header-right flex gap-[15px]">
-        <button className="flex items-center gap-[5px]">
+        <Link to={ROUTES.SETTING} className="flex items-center gap-[5px]">
           <Settings />
           <p className="header-desc">Settings</p>
-        </button>
+        </Link>
 
         {authUser ? (
           <>
-            <button className="flex items-center gap-[5px]">
+            <Link to={ROUTES.PROFILE} className="flex items-center gap-[5px]">
               <User />
               <p className="header-desc">Profile</p>
-            </button>
+            </Link>
+
             <button
               className="flex items-center gap-[5px]"
               onClick={handleLogOut}

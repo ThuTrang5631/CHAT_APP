@@ -1,0 +1,102 @@
+@use "../variables" as *;
+
+.profile-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    .profile-page-container{
+      width: 50%;
+      border-radius: 25px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      padding: 20px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: auto;
+    }
+
+  .profile-page-title{
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .profile-page-desc{
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .profile-section-avatar{
+    position: relative;
+    width: 18%;
+  }
+
+  .profile-page-image{
+    border-radius: 50%;
+    border: 1px solid #4BA52E;
+  }
+
+  .profile-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+
+  .profile-page-icon{
+    cursor: pointer;
+    position: absolute;
+    bottom: -3px;
+    right: 10px;
+    background-color: #DDA853;
+    border-radius: 50%;
+    padding:5px;
+    background-image: url("src/assets/camera.svg");
+    background-repeat: no-repeat;
+    background-size: 60% 60%;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+  }
+
+  .profile-page-input{
+    opacity: 0
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .profile-page{
+    .profile-page-container{
+      width: 60%;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-md){
+  .profile-page{
+    .profile-page-container{
+      width: 70%;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-md){
+  .profile-page{
+    .profile-page-container{
+      width: 80%;
+    }    
+
+    .profile-section-avatar{
+      position: relative;
+      width: 30%;
+    }
+  }
+}
