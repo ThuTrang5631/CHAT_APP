@@ -1,17 +1,42 @@
 import { Camera } from "lucide-react";
 import loginImage from "../../assets/login.jpg";
 import { useAuthStore } from "../../store/useAuthStore";
+import avatarDefault from "../../assets/user.png";
+import { request } from "../../lib/axios";
+import { cache, useState } from "react";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
-  const { authUser } = useAuthStore();
+  const { authUser, saveAuthUser } = useAuthStore();
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  const handleChangeInputFile = (e: any) => {
-    console.log("value", e);
-  };
+  const handleUploadProfile = async (e: any) => {
+    const file = e.target.files[0];
 
-  const handleUploadProfile = async () => {
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+
     try {
-    } catch (error) {}
+      reader.onload = async () => {
+        const base64Image = reader.result;
+
+        setPreviewImage(base64Image as string);
+
+        const res = await request.put("/update-profile", {
+          profilePic: base64Image,
+        });
+
+        if (res) {
+          saveAuthUser(res?.data);
+          toast.success("Update avatar profile sucessfully");
+        }
+      };
+    } catch (error: any) {
+      toast.error(error?.response.data.message);
+    }
   };
 
   return (
@@ -24,7 +49,7 @@ const ProfilePage = () => {
         <div className="profile-section">
           <div className="profile-section-avatar">
             <img
-              src={loginImage}
+              src={previewImage || authUser?.profilePic || avatarDefault}
               alt="profile-image"
               className="profile-page-image"
             />
@@ -34,7 +59,7 @@ const ProfilePage = () => {
                 type="file"
                 id="file"
                 className="profile-page-input"
-                onChange={(e) => handleChangeInputFile(e)}
+                onChange={(e) => handleUploadProfile(e)}
               />
             </span>
           </div>

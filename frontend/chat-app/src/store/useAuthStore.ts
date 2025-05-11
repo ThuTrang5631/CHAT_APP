@@ -5,6 +5,7 @@ interface AuthUser {
   id: string;
   email: string;
   fullName: string;
+  profilePic: string;
 }
 
 interface AuthStore {
