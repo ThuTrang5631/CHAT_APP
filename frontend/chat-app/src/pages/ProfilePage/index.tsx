@@ -1,42 +1,49 @@
-import { Camera } from "lucide-react";
-import loginImage from "../../assets/login.jpg";
+import { Loader } from "lucide-react";
 import { useAuthStore } from "../../store/useAuthStore";
 import avatarDefault from "../../assets/user.png";
 import { request } from "../../lib/axios";
-import { cache, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 const ProfilePage = () => {
   const { authUser, saveAuthUser } = useAuthStore();
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleUploadProfile = async (e: any) => {
     const file = e.target.files[0];
+    setLoading(true);
 
     if (!file) return;
 
     const reader = new FileReader();
 
-    reader.readAsDataURL(file);
-
-    try {
-      reader.onload = async () => {
+    reader.onload = async () => {
+      try {
         const base64Image = reader.result;
 
-        setPreviewImage(base64Image as string);
-
-        const res = await request.put("/update-profile", {
+        const res = await request.put("/auth/update-profile", {
           profilePic: base64Image,
         });
 
         if (res) {
+          setPreviewImage(base64Image as string);
           saveAuthUser(res?.data);
           toast.success("Update avatar profile sucessfully");
         }
-      };
-    } catch (error: any) {
-      toast.error(error?.response.data.message);
-    }
+      } catch (error: any) {
+        toast.error(error?.response.data.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    reader.onerror = () => {
+      toast.error("Error reading file");
+      setLoading(false);
+    };
+
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -48,11 +55,18 @@ const ProfilePage = () => {
         </div>
         <div className="profile-section">
           <div className="profile-section-avatar">
-            <img
-              src={previewImage || authUser?.profilePic || avatarDefault}
-              alt="profile-image"
-              className="profile-page-image"
-            />
+            {loading ? (
+              <div className="flex justify-center items-center w-full h-full flex-col">
+                <Loader className="size-10 animate-spin" />
+                <p className="text-[13px]">Updating...</p>
+              </div>
+            ) : (
+              <img
+                src={previewImage || authUser?.profilePic || avatarDefault}
+                alt="profile-image"
+                className="profile-page-image"
+              />
+            )}
 
             <span className="profile-page-icon">
               <input
@@ -60,6 +74,7 @@ const ProfilePage = () => {
                 id="file"
                 className="profile-page-input"
                 onChange={(e) => handleUploadProfile(e)}
+                accept="image/*"
               />
             </span>
           </div>
