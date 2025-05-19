@@ -9,12 +9,14 @@ import ProfilePage from "./pages/ProfilePage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser, checkAuth } = useAuthStore();
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
+  const { theme } = useThemeStore();
 
   if (!authUser && [ROUTES.PROFILE, ROUTES.HOME_PAGE].includes(pathname)) {
     navigate(ROUTES.LOGIN);
@@ -29,7 +31,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="container-app">
+    <div className="container-app" data-theme={theme}>
       <Navbar />
 
       <Routes>

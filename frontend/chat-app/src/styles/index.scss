@@ -3,6 +3,7 @@
 @use "./Pages/signup.scss" as *;
 @use "./Components/navbar";
 @use "./Pages/profile-page" as *;
+@use "./Pages/setting-page" as *;
 
 
 img {
@@ -51,5 +52,6 @@ button{
 }
 
 .container-app{
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
 }
