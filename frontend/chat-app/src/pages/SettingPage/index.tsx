@@ -1,3 +1,4 @@
+import { Check } from "lucide-react";
 import { useThemeStore } from "../../store/useThemeStore";
 import { THEMES } from "../../utils/constants";
 
@@ -31,9 +32,12 @@ const SettingPage = () => {
                   <div className="item-color rounded bg-neutral"></div>
                 </div>
               </div>
-              <span className="text-[11px] font-medium truncate w-full text-center">
-                {theme.charAt(0).toLocaleUpperCase() + theme.slice(1)}
-              </span>
+              <div className="flex items-center w-full justify-center gap-[5px]">
+                <span className="text-[11px] font-medium truncate text-center">
+                  {theme.charAt(0).toLocaleUpperCase() + theme.slice(1)}
+                </span>
+                {themeChoose === theme ? <Check /> : null}
+              </div>
             </button>
           );
         })}

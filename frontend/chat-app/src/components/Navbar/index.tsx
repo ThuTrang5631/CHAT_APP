@@ -4,9 +4,11 @@ import { LogOut, MessageSquare, Settings, User } from "lucide-react";
 import { useAuthStore } from "../../store/useAuthStore";
 import { request } from "../../lib/axios";
 import toast from "react-hot-toast";
+import { useThemeStore } from "../../store/useThemeStore";
 
 const Navbar = () => {
   const { authUser, saveAuthUser } = useAuthStore();
+  const { theme } = useThemeStore();
 
   const handleLogOut = async () => {
     try {
@@ -22,7 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="header">
+    <header className="header" data-theme={theme}>
       <div className="header-left">
         <Link to={ROUTES.HOME_PAGE} className="flex items-center gap-[5px]">
           <MessageSquare className="w-5 h-5" />
