@@ -1,0 +1,28 @@
+.card-chat{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px 15px;
+  border-radius: 10px;
+  width: fit-content;
+
+
+  .card-chat-content{
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .card-chat-hour{
+    font-size: 13px;
+    color: #EFEEEA;
+  }
+
+}
+
+.card-chat-sender{
+  background-color: #7C909A;
+}
+
+.card-chat-receiver{
+  background-color: #EF71B5;
+}

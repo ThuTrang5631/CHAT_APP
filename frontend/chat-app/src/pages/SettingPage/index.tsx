@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { useThemeStore } from "../../store/useThemeStore";
 import { THEMES } from "../../utils/constants";
+import CardChat from "../../components/CardChat";
 
 const SettingPage = () => {
   const { theme: themeChoose, saveTheme } = useThemeStore();
@@ -41,6 +42,35 @@ const SettingPage = () => {
             </button>
           );
         })}
+      </div>
+
+      <div className="setting-page-preview">
+        <h1 className="setting-page-title">Preview</h1>
+        <div className="setting-page-area-preview">
+          <div className="setting-page-card">
+            <div className="setting-page-card-top flex">
+              <div className="setting-page-card-avatar">J</div>
+              <div className="setting-page-card-desc">
+                <p className="card-desc-title">John Doe</p>
+                <p className="card-desc-status">Online</p>
+              </div>
+            </div>
+            <div className="setting-page-contain-mess">
+              <CardChat
+                isSender={true}
+                content="Hey! How's it going?"
+                hour="12:00 PM"
+              />
+              <div className="setting-page-mess-receiver">
+                <CardChat
+                  isSender={false}
+                  content="I'm doing great! Just working on some new features."
+                  hour="12:00 PM"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
