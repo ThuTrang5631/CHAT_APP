@@ -1,5 +1,5 @@
 import { useState } from "react";
-import signUpImage from "../../assets/signup.jpg";
+import signUpImage from "../../assets/signup.png";
 import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/constants";

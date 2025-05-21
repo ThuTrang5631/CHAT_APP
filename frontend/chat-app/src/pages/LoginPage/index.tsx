@@ -2,7 +2,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/constants";
-import loginImage from "../../assets/login.jpg";
+import loginImage from "../../assets/login.png";
 import toast from "react-hot-toast";
 import { request } from "../../lib/axios";
 import { useAuthStore } from "../../store/useAuthStore";

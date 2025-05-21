@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, Send } from "lucide-react";
 import { useThemeStore } from "../../store/useThemeStore";
 import { THEMES } from "../../utils/constants";
 import CardChat from "../../components/CardChat";
@@ -56,17 +56,25 @@ const SettingPage = () => {
               </div>
             </div>
             <div className="setting-page-contain-mess">
-              <CardChat
-                isSender={true}
-                content="Hey! How's it going?"
-                hour="12:00 PM"
-              />
-              <div className="setting-page-mess-receiver">
+              <div className="setting-page-mess-content">
                 <CardChat
-                  isSender={false}
-                  content="I'm doing great! Just working on some new features."
+                  isSender={true}
+                  content="Hey! How's it going?"
                   hour="12:00 PM"
                 />
+                <div className="setting-page-mess-receiver">
+                  <CardChat
+                    isSender={false}
+                    content="I'm doing great! Just working on some new features."
+                    hour="12:00 PM"
+                  />
+                </div>
+              </div>
+              <div className="setting-page-contain-input flex justify-between">
+                <p className="setting-page-input-text">This is a preview</p>
+                <button className="setting-page-send-btn">
+                  <Send />
+                </button>
               </div>
             </div>
           </div>
