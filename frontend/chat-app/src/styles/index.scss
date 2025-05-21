@@ -4,7 +4,9 @@
 @use "./Components/navbar";
 @use "./Pages/profile-page" as *;
 @use "./Pages/setting-page" as *;
-@use "./Components//card-chat";
+@use "./Components/card-chat";
+@use "./Components/side-bar-card";
+@use "./Pages/home-page" as *;
 
 
 img {
