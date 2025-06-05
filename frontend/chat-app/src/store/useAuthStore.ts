@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { request } from "../lib/axios";
 
-interface AuthUser {
-  id: string;
+export interface AuthUser {
+  _id: string;
   email: string;
   fullName: string;
   profilePic: string;
@@ -16,6 +16,7 @@ interface AuthStore {
   isCheckingAuth: boolean;
   saveAuthUser: (newUser: AuthUser) => void;
   checkAuth: () => Promise<void>;
+  onlineUsers: string[];
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -24,6 +25,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   isLoggingIn: false,
   isUpdateProfile: false,
   isCheckingAuth: true,
+  onlineUsers: [],
   saveAuthUser: (newUser: AuthUser | null) => set({ authUser: newUser }),
   checkAuth: async () => {
     try {

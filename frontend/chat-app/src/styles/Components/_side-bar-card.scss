@@ -1,8 +1,16 @@
 .side-bar{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 
   .side-bar-user-avatar{
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
   }
   
+  .side-bar-card-content{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
 }

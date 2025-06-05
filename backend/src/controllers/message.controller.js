@@ -2,11 +2,11 @@ import cloudinary from "../lib/cloudinary.js";
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 
-export const getUsersForSideBar = async (req, res) => {
+export const getUsersForSideBar = async (req, res) => {    
     try {
-        const loggedUserId = req.body._id;
+        const loggedUserId = req.user._id;
         const filteredUsers = await User.find({_id: {$ne: loggedUserId}}).select("-password");
-        res.status(400).json(filteredUsers);
+        res.status(200).json(filteredUsers);
     } catch (error) {
         console.log("Error in getUsersForSideBar controller", error.message);
         res.status(500, {message: 'Internal Server Error'})
