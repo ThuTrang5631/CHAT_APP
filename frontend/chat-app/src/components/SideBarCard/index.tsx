@@ -30,7 +30,7 @@ const SideBarCard = ({ onSelect }: ISideBarCard) => {
       {user?.map((item) => {
         return (
           <button
-            className="side-bar-user flex gap-[10px]"
+            className="side-bar-user flex gap-[10px] items-center"
             onClick={() => {
               onSelect?.(item);
             }}

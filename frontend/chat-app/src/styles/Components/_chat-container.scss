@@ -11,6 +11,7 @@
     img{
       width: 35px;
       height: 35px;
+      border-radius: 50%;
     }
   }
 
@@ -28,12 +29,27 @@
   .chat-container-desc{
     display: flex;
     gap: 8px;
+    margin-bottom: 15px;
+
+    &:last-child{
+      margin-bottom: 0;
+    }
 
     img{
       width: 40px;
       height: 40px;
     }
   }
+
+
+  .chat-end{
+    justify-content: end;
+  }
+
+  .chat-start{
+    justify-content: start;
+  }
+
 
   .chat-container-desc-time{
     font-size: 12px;

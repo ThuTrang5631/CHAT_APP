@@ -4,6 +4,8 @@ import CardChat from "../CardChat";
 import { useEffect, useRef, useState } from "react";
 import { request } from "../../lib/axios";
 import toast from "react-hot-toast";
+import { IMessage } from "../../pages/Homepage/data.t";
+import { useAuthStore } from "../../store/useAuthStore";
 
 interface IChatContainer {
   selectedUser: any;
@@ -13,7 +15,9 @@ interface IChatContainer {
 const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
   const [messageSend, setMessageSend] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const fileInputref = useRef(null);
+  const { authUser } = useAuthStore();
 
   const handleChangeMessage = (e: any) => {
     setMessageSend(e.target.value);
@@ -23,11 +27,17 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
     try {
       const res = await request.get(`/messages/${selectedUser?._id}`);
       console.log("res", res);
+      if (res?.data) {
+        setMessages(res?.data);
+      }
     } catch (error) {}
   };
 
   const handleSendMessages = async (e: React.MouseEvent) => {
-    if (!messageSend.trim() && !imagePreview) return;
+    if (!messageSend.trim() && !imagePreview) {
+      toast.error("Please enter content to send message");
+      return;
+    }
 
     try {
       const res = await request.post(`/messages/send/${selectedUser?._id}`, {
@@ -87,15 +97,29 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
         </button>
       </div>
       <div className="chat-container-content">
-        <div className="chat-container-desc">
-          <img src={selectedUser?.profilePic || avatarDefault} />
-          <CardChat
-            isSender={true}
-            content="Hey, How's it going?"
-            hour="19:40"
-          />
-        </div>
+        {messages?.map((item: IMessage) => {
+          const date = new Date(item?.createdAt);
+
+          return (
+            <div
+              className={`chat-container-desc ${
+                authUser?._id === item?.senderId ? "chat-end" : "chat-start"
+              }`}
+            >
+              {authUser?._id === item?.senderId ? null : (
+                <img src={selectedUser?.profilePic || avatarDefault} />
+              )}
+
+              <CardChat
+                isSender={authUser?._id === item?.senderId}
+                content={item?.text}
+                hour={`${date.getHours()}:${date.getMinutes()}`}
+              />
+            </div>
+          );
+        })}
       </div>
+
       <div className="chat-container-bottom">
         {imagePreview ? (
           <div className="chat-container-preview">
