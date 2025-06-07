@@ -1,6 +1,9 @@
-import { Send, X } from "lucide-react";
+import { Image, Send, X } from "lucide-react";
 import avatarDefault from "../../assets/user.png";
 import CardChat from "../CardChat";
+import { useEffect, useRef, useState } from "react";
+import { request } from "../../lib/axios";
+import toast from "react-hot-toast";
 
 interface IChatContainer {
   selectedUser: any;
@@ -8,6 +11,64 @@ interface IChatContainer {
 }
 
 const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
+  const [messageSend, setMessageSend] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+  const fileInputref = useRef(null);
+
+  const handleChangeMessage = (e: any) => {
+    setMessageSend(e.target.value);
+  };
+
+  const getMessages = async () => {
+    try {
+      const res = await request.get(`/messages/${selectedUser?._id}`);
+      console.log("res", res);
+    } catch (error) {}
+  };
+
+  const handleSendMessages = async (e: React.MouseEvent) => {
+    if (!messageSend.trim() && !imagePreview) return;
+
+    try {
+      const res = await request.post(`/messages/send/${selectedUser?._id}`, {
+        text: messageSend,
+        image: imagePreview,
+      });
+
+      setMessageSend("");
+      setImagePreview(null);
+      if (fileInputref.current) fileInputref.current.value = "";
+    } catch (error) {
+      console.error("Failed to send message", error);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleClosePreview = () => {
+    setImagePreview(null);
+    if (fileInputref.current) {
+      fileInputref.current.value = "";
+    }
+  };
+
+  useEffect(() => {
+    getMessages();
+  }, [selectedUser]);
+
   return (
     <div className="chat-container">
       <div className="chat-container-top flex justify-between">
@@ -36,10 +97,44 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
         </div>
       </div>
       <div className="chat-container-bottom">
-        <input className="chat-container-input" />
-        <button className="chat-container-btn-send">
-          <Send />
-        </button>
+        {imagePreview ? (
+          <div className="chat-container-preview">
+            <img src={imagePreview} alt="preview-image-send" />
+            <button
+              className="chat-container-close-preview"
+              onClick={handleClosePreview}
+            >
+              <X />
+            </button>
+          </div>
+        ) : null}
+
+        <div className="flex w-full gap-[15px] justify-center items-center">
+          <input
+            className="chat-container-input"
+            onChange={handleChangeMessage}
+            value={messageSend}
+          />
+          <div className="chat-container-upload">
+            <input
+              type="file"
+              id="file"
+              className="hidden"
+              onChange={(e) => handleImageChange(e)}
+              accept="image/*"
+              ref={fileInputref}
+            />
+            <button onClick={() => fileInputref?.current?.click()}>
+              <Image />
+            </button>
+          </div>
+          <button
+            className="chat-container-btn-send"
+            onClick={handleSendMessages}
+          >
+            <Send />
+          </button>
+        </div>
       </div>
     </div>
   );

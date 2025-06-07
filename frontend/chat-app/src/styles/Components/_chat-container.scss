@@ -49,9 +49,8 @@
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     padding: 10px 20px;
     display: flex;
-    gap: 20px;
+    flex-direction: column;
     width: 100%;
-    justify-content: center;
   }  
 
   .chat-container-input{
@@ -64,8 +63,47 @@
   }
   
   .chat-container-btn-send{
-    background-color: #EF71B5;
-    padding: 10px;
     border-radius: 20px;
+  }
+
+  .chat-container-upload{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .chat-container-preview{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 15px;
+    border: 0.5px solid #DBDBDB;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  
+    
+    img{
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    .chat-container-close-preview{
+      position: absolute;
+      right: -8px;
+      top: -7px;
+      background-color: #181818;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      svg{
+        width: 15px;
+        color: white
+      }
+    }
   }
 }

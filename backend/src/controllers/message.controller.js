@@ -55,7 +55,7 @@ export const sendMessage = async(req, res) => {
 
         // handle function for realtime message
 
-        res.status(201).json(newMessage);
+        res.status(200).json(newMessage);
     } catch (error) {
         console.log("Error in sendMessage controller", error.message);
         res.status(500, {message: 'Internal Server Error'})
