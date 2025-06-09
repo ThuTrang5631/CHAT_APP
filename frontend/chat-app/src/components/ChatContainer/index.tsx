@@ -17,7 +17,8 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const fileInputref = useRef(null);
-  const { authUser, onlineUsers } = useAuthStore();
+  const { authUser, onlineUsers, socket } = useAuthStore();
+  const messageEndRef = useRef(null);
 
   const handleChangeMessage = (e: any) => {
     setMessageSend(e.target.value);
@@ -75,9 +76,30 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
     }
   };
 
+  const subscribeToMessages = () => {
+    if (!selectedUser) return;
+
+    socket.on("newMessage", (newMessage: any) => {
+      setMessages([...messages, newMessage]);
+    });
+  };
+
+  const unsubscribeToMessages = () => {
+    socket.off("newMessage");
+  };
+
   useEffect(() => {
     getMessages();
-  }, [selectedUser]);
+    subscribeToMessages();
+
+    return () => unsubscribeToMessages();
+  }, [selectedUser._id, subscribeToMessages, unsubscribeToMessages]);
+
+  useEffect(() => {
+    if (messageEndRef.current && messages) {
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <div className="chat-container">
@@ -107,6 +129,7 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
               className={`chat-container-desc ${
                 authUser?._id === item?.senderId ? "chat-end" : "chat-start"
               }`}
+              ref={messageEndRef}
             >
               {authUser?._id === item?.senderId ? null : (
                 <img src={selectedUser?.profilePic || avatarDefault} />
