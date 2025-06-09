@@ -8,7 +8,7 @@ import { request } from "../../lib/axios";
 import { useAuthStore } from "../../store/useAuthStore";
 
 const LoginPage = () => {
-  const { saveAuthUser } = useAuthStore();
+  const { saveAuthUser, connectSocket } = useAuthStore();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,6 +28,7 @@ const LoginPage = () => {
       const res = await request.post("/auth/login", formData);
       saveAuthUser(res?.data);
       toast.success("Login account successfully");
+      connectSocket();
     } catch (error: any) {
       toast.error(error.response.data.message);
     }

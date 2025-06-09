@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useThemeStore } from "../../store/useThemeStore";
 
 const Navbar = () => {
-  const { authUser, saveAuthUser } = useAuthStore();
+  const { authUser, saveAuthUser, disconnectSocket } = useAuthStore();
   const { theme } = useThemeStore();
 
   const handleLogOut = async () => {
@@ -16,6 +16,7 @@ const Navbar = () => {
       if (res) {
         saveAuthUser(null);
         toast.success("Log out successfuly");
+        disconnectSocket();
       }
     } catch (error: any) {
       console.log("Error of log out");

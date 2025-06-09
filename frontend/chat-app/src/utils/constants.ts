@@ -40,3 +40,5 @@ export const THEMES = [
   "nord",
   "sunset",
 ];
+
+export const BASE_URL = "http://localhost:5001";

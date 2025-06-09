@@ -12,7 +12,7 @@ import { Toaster } from "react-hot-toast";
 import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
-  const { authUser, checkAuth } = useAuthStore();
+  const { authUser, checkAuth, onlineUsers } = useAuthStore();
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();

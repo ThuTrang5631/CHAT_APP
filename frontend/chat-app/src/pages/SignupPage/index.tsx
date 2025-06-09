@@ -14,7 +14,7 @@ const SignupPage = () => {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const { saveAuthUser }: any = useAuthStore();
+  const { saveAuthUser, connectSocket }: any = useAuthStore();
 
   const handleSubmitFormSignup = async () => {
     if (!formData.fullName.trim()) return toast.error("Full name is required");
@@ -31,6 +31,7 @@ const SignupPage = () => {
       const res = await request.post("/auth/signup", formData);
       saveAuthUser(res?.data);
       toast.success("Account created successfully");
+      connectSocket();
     } catch (error: any) {
       toast.error(error.response.data.message);
     }

@@ -17,7 +17,7 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const fileInputref = useRef(null);
-  const { authUser } = useAuthStore();
+  const { authUser, onlineUsers } = useAuthStore();
 
   const handleChangeMessage = (e: any) => {
     setMessageSend(e.target.value);
@@ -89,7 +89,9 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
           />
           <div className="chat-container-user-info">
             <p className="user-name">{selectedUser?.fullName}</p>
-            <p className="user-status">Offline</p>
+            <p className="user-status">
+              {onlineUsers.includes(selectedUser?._id) ? "Online" : "Offline"}
+            </p>
           </div>
         </div>
         <button onClick={onCloseChat}>
@@ -109,12 +111,25 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
               {authUser?._id === item?.senderId ? null : (
                 <img src={selectedUser?.profilePic || avatarDefault} />
               )}
+              <div
+                className={`chat-contaier-info ${
+                  authUser?._id === item?.senderId ? "chat-end" : "chat-start"
+                }`}
+              >
+                {item?.image ? (
+                  <img
+                    className="chat-container-image"
+                    src={item?.image}
+                    alt="messeage image"
+                  />
+                ) : null}
 
-              <CardChat
-                isSender={authUser?._id === item?.senderId}
-                content={item?.text}
-                hour={`${date.getHours()}:${date.getMinutes()}`}
-              />
+                <CardChat
+                  isSender={authUser?._id === item?.senderId}
+                  content={item?.text}
+                  hour={`${date.getHours()}:${date.getMinutes()}`}
+                />
+              </div>
             </div>
           );
         })}

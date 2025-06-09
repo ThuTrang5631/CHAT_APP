@@ -122,4 +122,12 @@
       }
     }
   }
+
+  .chat-contaier-info{
+    .chat-container-image{
+      width: 120px;
+      height: auto;
+      object-fit: cover;
+    }
+  }
 }
