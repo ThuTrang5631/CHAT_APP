@@ -14,7 +14,6 @@ const SideBarCard = ({ onSelect }: ISideBarCard) => {
   const getUser = async () => {
     try {
       const res = await request.get("/messages/users");
-      console.log("res", res);
       if (res?.data) {
         setUser(res?.data);
       }

@@ -16,7 +16,7 @@ interface AuthStore {
   isLoggingIn: boolean;
   isUpdateProfile: boolean;
   isCheckingAuth: boolean;
-  saveAuthUser: (newUser: AuthUser) => void;
+  saveAuthUser: (newUser: AuthUser | null) => void;
   checkAuth: () => Promise<void>;
   onlineUsers: string[];
   socket: any;

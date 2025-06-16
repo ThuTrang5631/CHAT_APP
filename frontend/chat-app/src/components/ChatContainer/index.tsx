@@ -14,11 +14,11 @@ interface IChatContainer {
 
 const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
   const [messageSend, setMessageSend] = useState("");
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const fileInputref = useRef(null);
+  const fileInputref = useRef<HTMLInputElement>(null);
   const { authUser, onlineUsers, socket } = useAuthStore();
-  const messageEndRef = useRef(null);
+  const messageEndRef = useRef<HTMLDivElement>(null);
 
   const handleChangeMessage = (e: any) => {
     setMessageSend(e.target.value);
@@ -27,11 +27,24 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
   const getMessages = async () => {
     try {
       const res = await request.get(`/messages/${selectedUser?._id}`);
-      console.log("res", res);
       if (res?.data) {
         setMessages(res?.data);
       }
     } catch (error) {}
+  };
+
+  const subscribeToMessages = () => {
+    if (!selectedUser?._id) {
+      return;
+    }
+
+    socket.on("newMessage", (newMessage: any) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
+  };
+
+  const unsubscribeToMessages = () => {
+    socket.off("newMessage");
   };
 
   const handleSendMessages = async (e: React.MouseEvent) => {
@@ -41,10 +54,17 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
     }
 
     try {
-      const res = await request.post(`/messages/send/${selectedUser?._id}`, {
-        text: messageSend,
-        image: imagePreview,
-      });
+      const response = await request.post(
+        `/messages/send/${selectedUser?._id}`,
+        {
+          text: messageSend,
+          image: imagePreview,
+        }
+      );
+
+      if (response.data) {
+        setMessages((prev) => [...prev, response.data]);
+      }
 
       setMessageSend("");
       setImagePreview(null);
@@ -54,8 +74,9 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
     }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
     if (!file.type.startsWith("image/")) {
       toast.error("Please select an image file");
@@ -64,7 +85,7 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setImagePreview(reader.result);
+      setImagePreview(reader.result as string);
     };
     reader.readAsDataURL(file);
   };
@@ -76,24 +97,12 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
     }
   };
 
-  const subscribeToMessages = () => {
-    if (!selectedUser) return;
-
-    socket.on("newMessage", (newMessage: any) => {
-      setMessages([...messages, newMessage]);
-    });
-  };
-
-  const unsubscribeToMessages = () => {
-    socket.off("newMessage");
-  };
-
   useEffect(() => {
     getMessages();
     subscribeToMessages();
 
     return () => unsubscribeToMessages();
-  }, [selectedUser._id, subscribeToMessages, unsubscribeToMessages]);
+  }, [selectedUser._id]);
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
@@ -176,6 +185,7 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
             className="chat-container-input"
             onChange={handleChangeMessage}
             value={messageSend}
+            placeholder="Type a message..."
           />
           <div className="chat-container-upload">
             <input
