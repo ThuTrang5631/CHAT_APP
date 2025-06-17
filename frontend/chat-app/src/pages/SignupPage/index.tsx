@@ -52,10 +52,15 @@ const SignupPage = () => {
               <input
                 type="text"
                 className="input"
-                onChange={(e) =>
-                  setFormData({ ...formData, fullName: e.target.value })
-                }
+                onChange={(e) => {
+                  setFormData({ ...formData, fullName: e.target.value });
+                }}
                 placeholder="Enter your full name"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                  }
+                }}
               />
             </div>
             <div className="flex flex-col input-item">

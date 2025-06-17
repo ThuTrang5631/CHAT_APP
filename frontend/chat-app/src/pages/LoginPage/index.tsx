@@ -62,9 +62,14 @@ const LoginPage = () => {
                   type={showPassword ? "text" : "password"}
                   className="input"
                   placeholder="Enter your password"
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setFormData({ ...formData, password: e.target.value });
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <button
                   className="btn-show-pass"

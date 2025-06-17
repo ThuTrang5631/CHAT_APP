@@ -47,7 +47,7 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
     socket.off("newMessage");
   };
 
-  const handleSendMessages = async (e: React.MouseEvent) => {
+  const handleSendMessages = async () => {
     if (!messageSend.trim() && !imagePreview) {
       toast.error("Please enter content to send message");
       return;
@@ -130,7 +130,7 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
         </button>
       </div>
       <div className="chat-container-content">
-        {messages?.map((item: IMessage) => {
+        {messages?.map((item: IMessage, index) => {
           const date = new Date(item?.createdAt);
 
           return (
@@ -139,6 +139,7 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
                 authUser?._id === item?.senderId ? "chat-end" : "chat-start"
               }`}
               ref={messageEndRef}
+              key={index}
             >
               {authUser?._id === item?.senderId ? null : (
                 <img src={selectedUser?.profilePic || avatarDefault} />
@@ -186,6 +187,11 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
             onChange={handleChangeMessage}
             value={messageSend}
             placeholder="Type a message..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSendMessages();
+              }
+            }}
           />
           <div className="chat-container-upload">
             <input

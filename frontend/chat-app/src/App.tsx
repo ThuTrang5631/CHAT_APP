@@ -27,7 +27,9 @@ const App = () => {
   }
 
   useEffect(() => {
-    checkAuth();
+    if (![ROUTES.SIGN_UP, ROUTES.LOGIN].includes(pathname)) {
+      checkAuth();
+    }
   }, []);
 
   return (

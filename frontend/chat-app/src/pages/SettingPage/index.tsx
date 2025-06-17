@@ -14,13 +14,14 @@ const SettingPage = () => {
       </div>
 
       <div className="grid grid-cols-4 gap-[20px] setting-page-contain-theme">
-        {THEMES.map((theme) => {
+        {THEMES.map((theme, index) => {
           return (
             <button
               className={`setting-page-button ${
                 themeChoose === theme ? "bg-base-200" : ""
               }`}
               onClick={() => saveTheme(theme)}
+              key={index}
             >
               <div
                 className="theme-item relative h-8 w-full rounded-md overflow-hidden"
@@ -58,13 +59,13 @@ const SettingPage = () => {
             <div className="setting-page-contain-mess">
               <div className="setting-page-mess-content">
                 <CardChat
-                  isSender={true}
+                  isSender={false}
                   content="Hey! How's it going?"
                   hour="12:00 PM"
                 />
                 <div className="setting-page-mess-receiver">
                   <CardChat
-                    isSender={false}
+                    isSender={true}
                     content="I'm doing great! Just working on some new features."
                     hour="12:00 PM"
                   />

@@ -59,6 +59,7 @@
     padding: 25px 15px;
     flex: 1;
     overflow-y: auto;
+    // background-color: white;
   }
 
   .chat-container-bottom{
@@ -125,7 +126,7 @@
 
   .chat-contaier-info{
     .chat-container-image{
-      width: 120px;
+      width: 100px;
       height: auto;
       object-fit: cover;
       border-radius: 10px;

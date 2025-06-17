@@ -26,13 +26,14 @@ const SideBarCard = ({ onSelect }: ISideBarCard) => {
 
   return (
     <div className="side-bar setting-page">
-      {user?.map((item) => {
+      {user?.map((item, index) => {
         return (
           <button
             className="side-bar-user flex gap-[10px] items-center"
             onClick={() => {
               onSelect?.(item);
             }}
+            key={index}
           >
             <img
               className="side-bar-user-avatar"
