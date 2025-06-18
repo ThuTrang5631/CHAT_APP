@@ -16,6 +16,7 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
   const [messageSend, setMessageSend] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [isSending, setIsSending] = useState(false);
   const fileInputref = useRef<HTMLInputElement>(null);
   const { authUser, onlineUsers, socket } = useAuthStore();
   const messageEndRef = useRef<HTMLDivElement>(null);
@@ -39,6 +40,8 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
     }
 
     socket.on("newMessage", (newMessage: any) => {
+      if (newMessage.senderId !== selectedUser?._id) return;
+
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
   };
@@ -48,10 +51,16 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
   };
 
   const handleSendMessages = async () => {
+    if (isSending) {
+      return;
+    }
+
     if (!messageSend.trim() && !imagePreview) {
       toast.error("Please enter content to send message");
       return;
     }
+
+    setIsSending(true);
 
     try {
       const response = await request.post(
@@ -71,6 +80,8 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
       if (fileInputref.current) fileInputref.current.value = "";
     } catch (error) {
       console.error("Failed to send message", error);
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -101,7 +112,9 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
     getMessages();
     subscribeToMessages();
 
-    return () => unsubscribeToMessages();
+    return () => {
+      unsubscribeToMessages();
+    };
   }, [selectedUser._id]);
 
   useEffect(() => {
@@ -188,8 +201,11 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
             value={messageSend}
             placeholder="Type a message..."
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === "Enter" && !isSending) {
+                e.preventDefault();
                 handleSendMessages();
+              } else if (e.key === "Enter" && isSending) {
+                e.preventDefault();
               }
             }}
           />
@@ -208,7 +224,11 @@ const ChatContainer = ({ selectedUser, onCloseChat }: IChatContainer) => {
           </div>
           <button
             className="chat-container-btn-send"
-            onClick={handleSendMessages}
+            onClick={() => {
+              if (!isSending) {
+                handleSendMessages();
+              }
+            }}
           >
             <Send />
           </button>
